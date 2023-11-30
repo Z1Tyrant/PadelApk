@@ -5,11 +5,11 @@ describe('GeolocalizationPage', () => {
   let component: GeolocalizationPage;
   let fixture: ComponentFixture<GeolocalizationPage>;
 
-  beforeEach(async(() => {
+  beforeEach(async() => {
     fixture = TestBed.createComponent(GeolocalizationPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
