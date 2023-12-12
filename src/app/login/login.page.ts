@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Storage } from '@ionic/storage-angular';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,8 @@ export class LoginPage implements OnInit {
   constructor(
     private authservice: AuthService,
     private nacCtrl: NavController,
-    private storage: Storage
+    private storage: Storage,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -28,18 +29,29 @@ export class LoginPage implements OnInit {
       this.nacCtrl.navigateRoot('home')
 
     }else{
-      console.log('Las credenciales no son correctas')
+      this.presentAlert('Credenciales incorrectas', 'Por favor, verifica tu correo y contraseña.');
+
     }
   }
 
   async register(){
     const registered = await this.authservice.register(this.email, this.password);
     if(registered){
-      console.log('usuario registrado correctamente', this.email);
+      this.presentAlert('Usuario registrado', 'Ya puede iniciar sesion con su usuario.');
 
     } else{
       console.log('error al registrar');
     }
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }
