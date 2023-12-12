@@ -8,6 +8,9 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 })
 export class CameraPage implements OnInit {
 
+
+  userAvatar: string = '';
+
   
   
 
@@ -17,17 +20,20 @@ export class CameraPage implements OnInit {
     Camera.requestPermissions();
   }
 
-  takePhoto() {
-    const openCamera = async () => {
-      await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera
-      });
-    };
-
-    openCamera();
-
-}
+  async takePhoto() {
+    const photo = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
+    if (photo.webPath) {
+      this.userAvatar = photo.webPath;
+    } else {
+      console.error('La propiedad webPath de la foto es undefined.');
+      // Puedes manejar este caso según tus necesidades.
+    }
+    
+  }
+  
 }
